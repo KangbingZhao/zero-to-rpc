@@ -12,6 +12,7 @@ plugins {
 
 allprojects {
     apply(plugin = "io.spring.dependency-management")
+    apply(plugin = "kotlin")
     group = "cn.zhaokangbing"
     version = "1.0-SNAPSHOT"
 
@@ -19,14 +20,14 @@ allprojects {
         maven(url = "https://maven.aliyun.com/repository/public/")
         mavenCentral()
     }
+}
 
+subprojects {
+    apply(plugin = "org.springframework.boot")
     dependencyManagement {
         imports {
             mavenBom("org.springframework.boot:spring-boot-dependencies:${ext["springboot_version"]}")
         }
     }
-}
 
-subprojects {
-    apply(plugin = "org.springframework.boot")
 }
