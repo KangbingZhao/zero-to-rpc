@@ -1,37 +1,32 @@
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
-    kotlin("jvm") version "1.7.21"
-    id("project-report")
-    id("org.springframework.boot") version "3.1.2"
-    id("io.spring.dependency-management") version "1.1.2"
+    kotlin("jvm") version "1.9.24"
+    kotlin("plugin.spring") version "1.9.24"
+    id("org.springframework.boot") version "3.3.2" apply false
+    id("io.spring.dependency-management") version "1.1.6"
+    id("org.graalvm.buildtools.native") version "0.10.2"
 }
 
-group = "cn.zhaokangbing"
-version = "1.0-SNAPSHOT"
 
 
+allprojects {
+    apply(plugin = "io.spring.dependency-management")
+    group = "cn.zhaokangbing"
+    version = "1.0-SNAPSHOT"
 
-repositories {
-    maven(url = "https://maven.aliyun.com/repository/public/")
-    mavenCentral()
-}
+    repositories {
+        maven(url = "https://maven.aliyun.com/repository/public/")
+        mavenCentral()
+    }
 
-dependencyManagement {
-    dependencies {
-        dependency("org.springframework.boot:spring-boot-starter-web:${ext["springboot_version"]}")
-        dependency("org.springframework.boot:spring-boot-starter:${ext["springboot_version"]}")
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.boot:spring-boot-dependencies:${ext["springboot_version"]}")
+        }
     }
 }
 
-dependencies {
-    implementation(kotlin("stdlib"))
-}
-
-subprojects{
-    apply(plugin="kotlin")
-    apply(plugin="project-report")
-    dependencies{
-        implementation(enforcedPlatform(project(":")))
-    }
+subprojects {
+    apply(plugin = "org.springframework.boot")
 }
