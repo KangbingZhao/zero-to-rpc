@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
@@ -15,6 +17,18 @@ allprojects {
     apply(plugin = "kotlin")
     group = "cn.zhaokangbing"
     version = "1.0-SNAPSHOT"
+
+    tasks.withType<KotlinCompile> {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_21)
+        }
+    }
+
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(21))
+        }
+    }
 
     repositories {
         maven(url = "https://maven.aliyun.com/repository/public/")
